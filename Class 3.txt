@@ -1,0 +1,61 @@
+Hadoop 2.x Architecture
+In this case two major changes have been done. 
+1) While checkpointing SNN keeps a replicated copy of FS Image in itself.
+2) Edit log in NN is removed and Shared Edits are added in each DN.
+So when NN goes down SNN has a updated FSI and changes occured in last 1hr will be in Journal Nodes. So FSI in disk can be updated without any issue.
+Again the SNN in 2.x is renamed as StandBy Name Node and Name node as Active Name Node.
+Journal Nodes are coming into the picture which does the task of edit log and are placed in DN.
+JN are NFS i.e. Network file system.
+Zookeeper is introduced in the cluster to moniter NNs and NNs sends heartbeat to zookeeper every 5 secs.
+When ANN does not send heartbeat even after 5secs, ZK asks SBNN to become ANN and ANN becomes SBNN.
+
+ANN has inuse.lock file in it by which ZK identifies an ANN. 
+When a SBNN has to become an ANN ZK sends inuse.lock file to SBNN. Now when earlier ANN comes back in service, it has the inuse.lock file already in it.
+This scenario is called Split Brain Scenario. Presently, SBNN is working fine so ZK asks ZK file controller to remove the inuse.lock file from ANN.
+
+Map Reduce -> Parallel processing technique
+1st step is Split the data
+2nd convert data into keyvalue list by mapping
+3rd step is shuffling i.e. briging similar data into the single system. Framework will take care of choosing systems.
+4th step is reducing i.e. counting the number of outputs in each system.
+5th step is  Final result i.e. bring the output list together.
+
+In Hadoop 1.x
+File System -> System where files can be stored (HDFS)
+OS -> Resource Allocator (Map Reduce,Processing Technique)
+
+In Hadoop 2.x
+File system -> HDFS
+OS -> YARN (Yet Another Resource Negotiator) (Introduced by Hortonworks)
+
+Query = Process = Jar file
+
+Yarn Architecture
+Client asks Resource Manager(RM) present in NN about the query it will check FSI according to the jar file and will reply that where the data is available.
+In 2.x every DN has Node manager(NM) and Resource Manager in NN.
+When RM submits the jar and immediately NM provides the data in the form of Container.
+Container is a JVM Object, they gets created in the DNs having the data according to the jar.
+In node cluster, a container will act as Application Master Container who will check whether all other containers are working or not and this container can 
+either be created in a DN having the query data or any other DN.
+Now Jar is submitted by client to the DNs and procesing will be done simultaneously in all DNs.
+After serving the client's jar, containers become free and goes for the next jar.
+Containers are only created in DNs where data is available, and after serving thier tasks, containers goes out of the DNs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
