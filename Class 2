@@ -1,0 +1,33 @@
+Simple architecture of Hadoop project
+hadoop 1.x -> Default block size 64MB
+Hadoop 2.x -> Default block size 128MB
+Hadoop 3.x ->
+
+In big data we perform ELT.
+Flow of Big Data -> GET, DO, PUT
+Get the data from RDBMS -> Source Table is always table.
+Put in HDFS -> Process the data
+Output in LFS
+
+10gb -> 10*1024/128 -> 80 Blocks
+
+Hadoop 1.x Advantages
+Huge Space
+High Availability -> Cluster Administration & Metadata Management
+
+Cluster Administration
+Heartbeat -> Data node sends signal (Java acknowledgement) to Name node every 3 seconds, known as heartbeat.
+Balancing -> Stored data amount in each node must be same.
+Replication -> To avoid the data loss, duplicates of the data are created and stored in HDFS. Default replication factor is 3.
+Over replication and Under replication.
+
+Metadata Management -> Data about the data
+Every 30 sec data node will send block report to name node i.e. total space, free space, what data, part of that data in that data node.
+File System Image (FSImage) contents the block report in image format.
+FSI in memory will be updated in every 30sec but in in case of disk it is 1hr.
+So in FSI in memory will always be updated frequently but in disk it will only occur once an hour. 
+The changes that needed to be done to FSI present in disk will be informed by edit log as it keeps track of the changes occured in last hour,
+and this process will take place in secondary name node. This process is called checkpointing.
+
+Disadvantage of Hadoop 1.x
+Single point of failure i.e. name node has no backup.
