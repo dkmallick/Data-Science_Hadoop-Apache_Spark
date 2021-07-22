@@ -1,0 +1,43 @@
+Big Data -> Technology handles huge volume(TB,PB) of data in storing & processing.
+
+Hadoop is a framework which handles big data.
+Framework has some rules and regulation which you need to follow for processing huge volume of data.
+Informatica was a tool used to handle huge data and charged huge money. As data is increasing exponentially, more server where needed so not feasible.
+
+Types of data - 
+Structured -> Data + Schema
+Semi-structured -> Data (Keyvalues will be present, as it has no schema)
+Unstructured data ->
+
+DFS -> Distritubed File System
+Storing - Data gets distributed between various interconnected servers equally.
+Process - Query sitting & distributed data coming to process, this is known as process locality. Hence, takes huge time.
+
+Distritubed process going to distributed data is called as Data Locality.
+Hadoop and Spark follow data locality.
+
+What Hadoop provides?
+1) HDFS - Hadoop used for storing the data and it follows data locality.
+2) Map Reduce - 
+
+1 core -> 3 to 4 threads(i.e. parallel lines)
+1GB data needs 8 blocks, 1 block can take 2 tasks.
+So 10GB data -> 80 blocks -> 160 tasks -> 40 cores are required.
+In our laptop we may have only 8 to 16 cores, so we can not process 10GB data in our laptop.
+So to process data high configurated  interconnected systems are taken.
+Connection of the systems is called node cluster.
+
+5 Vs of Big Data -> Volume, Velocity, Variety, Veracity and Value.
+
+Distritubed environment uses Master-Slave Architecture
+Master - Name Node
+Slave - Data Node
+Node -> System
+Cluster -> combination of all nodes.
+
+Process of Connecting systems - 
+Install hadoop
+File -> core-site.xml
+Inside core-site.xml for master node put IP address of system1 and for Slave node put other IP address, same for all systems.
+Edge Node (another Linux System) is used to access and handle Hadoop cluster.
+Putty -> Remote terminal (Access the cluster remotely)
